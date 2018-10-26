@@ -1,25 +1,25 @@
 package main
 
 import (
-	"fmt"
-	"time"
-
 	"github.com/OSSystems/pkg/log"
 	"github.com/rodrigoapereira/auditmq/config"
 	"github.com/streadway/amqp"
 )
 
+type ConsumerHandler interface {
+	Handle(amqp.Delivery)
+}
+
 type Consumer struct {
-	cfg  *config.Config
-	ch   *amqp.Channel
-	done chan error
+	Handler ConsumerHandler
+	cfg     *config.Config
+	ch      *amqp.Channel
+	done    chan error
 }
 
 func (c *Consumer) handle(deliveries <-chan amqp.Delivery) {
-	for x := range deliveries {
-		fmt.Println("RECEIVED ", string(x.Body))
-		time.Sleep(10 * time.Second)
-		fmt.Println(x.Ack(false))
+	for message := range deliveries {
+		c.Handler.Handle(message)
 	}
 
 	log.Debug("Worker stopped")
@@ -72,8 +72,11 @@ func NewConsumer() (*Consumer, error) {
 		return nil, err
 	}
 
+	handler := NewHandler()
+
 	return &Consumer{
-		ch:  ch,
-		cfg: cfg,
+		Handler: handler,
+		ch:      ch,
+		cfg:     cfg,
 	}, nil
 }
