@@ -5,20 +5,20 @@ import (
 	"github.com/streadway/amqp"
 )
 
-type Data struct {
-	Type          string `mapstructure:"type"`
-	IntegerOffset int64  `mapstructure:"integer_offset"`
+type DataOptions struct {
+	Offset int `mapstructure:"offset"`
 }
 
-type Service struct {
-	OwnData     map[string]Data `mapstructure:"own_data"`
-	MatchedData map[string]Data `mapstructure:"matched_data"`
+type ServiceData struct {
+	Type     string                 `mapstructure:"type"`
+	Owner    string                 `mapstructure:"owner"`
+	Replicas map[string]DataOptions `mapstructure:"replicas"`
 }
 
 type Config struct {
-	DSN           string             `mapstructure:"dsn"`
-	Services      map[string]Service `mapstructure:"services"`
-	Exchange      string             `mapstructure:"exchange"`
+	DSN           string                 `mapstructure:"dsn"`
+	Data          map[string]ServiceData `mapstructure:"data"`
+	Exchange      string                 `mapstructure:"exchange"`
 	RoutingKey    string
 	ConsumerQueue string `mapstructure:"ConsumerQueue"`
 	ConsumerName  string
