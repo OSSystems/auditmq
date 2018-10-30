@@ -6,7 +6,7 @@ import (
 )
 
 type DataOptions struct {
-	Offset int `mapstructure:"offset"`
+	Offset float64 `mapstructure:"offset"`
 }
 
 type ServiceData struct {
@@ -15,10 +15,12 @@ type ServiceData struct {
 	Replicas map[string]DataOptions `mapstructure:"replicas"`
 }
 
+type DataFields map[string]ServiceData
+
 type Config struct {
-	DSN           string                 `mapstructure:"dsn"`
-	Data          map[string]ServiceData `mapstructure:"data"`
-	Exchange      string                 `mapstructure:"exchange"`
+	DSN           string     `mapstructure:"dsn"`
+	Data          DataFields `mapstructure:"data"`
+	Exchange      string     `mapstructure:"exchange"`
 	RoutingKey    string
 	ConsumerQueue string `mapstructure:"ConsumerQueue"`
 	ConsumerName  string
