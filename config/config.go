@@ -1,6 +1,10 @@
 package config
 
 import (
+	"os"
+
+	"github.com/OSSystems/pkg/log"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"github.com/streadway/amqp"
 )
@@ -45,6 +49,10 @@ func GetConfig() *Config {
 }
 
 func LoadConfig() *Config {
+	if _, ok := os.LookupEnv("DEBUG"); ok {
+		log.SetLevel(logrus.DebugLevel)
+	}
+
 	viper.SetConfigType("yml")
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
