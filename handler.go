@@ -3,15 +3,11 @@ package main
 import (
 	"encoding/json"
 
-	"github.com/jinzhu/gorm"
-	"github.com/rodrigoapereira/auditmq/config"
 	"github.com/rodrigoapereira/auditmq/pkg"
 	"github.com/streadway/amqp"
 )
 
-type Handler struct {
-	db *gorm.DB
-}
+type Handler struct{}
 
 func (h *Handler) Handle(message amqp.Delivery) {
 	servicePayload := &pkg.Payload{}
@@ -31,10 +27,5 @@ func (h *Handler) Handle(message amqp.Delivery) {
 }
 
 func NewHandler() *Handler {
-	cfg := config.GetConfig()
-	db := cfg.GetDB()
-
-	return &Handler{
-		db: db,
-	}
+	return &Handler{}
 }
