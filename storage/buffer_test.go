@@ -11,10 +11,10 @@ type BufferTestSuite struct {
 }
 
 func (s *BufferTestSuite) TestPush() {
-	buff := NewBuffer()
+	buff := NewBuffer(3)
 	buff.Push(1)
 
-	buff.Do(func(val interface{}) {
+	buff.internal.Do(func(val interface{}) {
 		if val == nil {
 			return
 		}
@@ -24,12 +24,12 @@ func (s *BufferTestSuite) TestPush() {
 }
 
 func (s *BufferTestSuite) TestCopyLastValue() {
-	buff := NewBuffer()
+	buff := NewBuffer(3)
 	buff.Push(1)
 	buff.CopyLastValue()
 
 	runs := 0
-	buff.Do(func(val interface{}) {
+	buff.internal.Do(func(val interface{}) {
 		if val == nil {
 			return
 		}
@@ -42,12 +42,20 @@ func (s *BufferTestSuite) TestCopyLastValue() {
 }
 
 func (s *BufferTestSuite) TestToSlice() {
-	buff := NewBuffer()
+	buff := NewBuffer(3)
 	buff.Push(1)
 
-	s.Equal([]interface{}{1}, buff)
+	s.Equal([]interface{}{1}, buff.ToSlice())
+}
+
+func (s *BufferTestSuite) TestLen() {
+	buff := NewBuffer(3)
+	s.Equal(3, buff.Len())
+
+	buff = NewBuffer(10)
+	s.Equal(10, buff.Len())
 }
 
 func TestBuffer(t *testing.T) {
-	suite.Run(t, &BufferTestSuite{})
+	suite.Run(t, new(BufferTestSuite))
 }

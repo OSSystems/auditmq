@@ -3,10 +3,11 @@ package config
 import (
 	"os"
 
+	"github.com/NeowayLabs/wabbit"
+	"github.com/NeowayLabs/wabbit/amqp"
 	"github.com/OSSystems/pkg/log"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
-	"github.com/streadway/amqp"
 )
 
 type DataOptions struct {
@@ -16,6 +17,7 @@ type DataOptions struct {
 type ServiceData struct {
 	Type     string                 `mapstructure:"type"`
 	Owner    string                 `mapstructure:"owner"`
+	Samples  int                    `mapstructure:"samples"`
 	Replicas map[string]DataOptions `mapstructure:"replicas"`
 }
 
@@ -29,7 +31,7 @@ type Config struct {
 	ConsumerQueue string `mapstructure:"ConsumerQueue"`
 	ConsumerName  string
 
-	amqp *amqp.Connection
+	amqp *amqp.Conn
 }
 
 var config *Config
@@ -72,7 +74,7 @@ func LoadConfig() *Config {
 	return config
 }
 
-func (c *Config) GetAMQP() *amqp.Connection {
+func (c *Config) GetAMQP() *amqp.Conn {
 	if c.amqp != nil {
 		return c.amqp
 	}
@@ -83,10 +85,15 @@ func (c *Config) GetAMQP() *amqp.Connection {
 	ch, err := conn.Channel()
 	panicIfErr(err)
 
-	panicIfErr(ch.ExchangeDeclare(c.Exchange, "direct", true, false, false, false, nil))
-	_, err = ch.QueueDeclare(c.ConsumerQueue, true, false, false, false, nil)
+	panicIfErr(ch.ExchangeDeclare(c.Exchange, "direct", wabbit.Option{
+		"durable": true,
+	}))
+	_, err = ch.QueueDeclare(c.ConsumerQueue, wabbit.Option{
+		"durable": true,
+	})
 	panicIfErr(err)
-	panicIfErr(ch.QueueBind(c.ConsumerQueue, c.RoutingKey, c.Exchange, false, nil))
+
+	panicIfErr(ch.QueueBind(c.ConsumerQueue, c.RoutingKey, c.Exchange, nil))
 
 	panicIfErr(ch.Close())
 

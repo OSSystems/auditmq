@@ -2,20 +2,18 @@ package storage
 
 import "container/ring"
 
-const samples = 10
-
 type Buffer struct {
 	internal *ring.Ring
 }
 
-func NewBuffer() *Buffer {
+func NewBuffer(samples int) *Buffer {
 	return &Buffer{
 		internal: ring.New(samples),
 	}
 }
 
-func (b *Buffer) Do(f func(val interface{})) {
-	b.internal.Do(f)
+func (b *Buffer) Len() int {
+	return b.internal.Len()
 }
 
 func (b *Buffer) Push(data interface{}) {
@@ -30,7 +28,7 @@ func (b *Buffer) CopyLastValue() {
 
 func (b *Buffer) ToSlice() []interface{} {
 	sample := []interface{}{}
-	b.Do(func(val interface{}) {
+	b.internal.Do(func(val interface{}) {
 		if val == nil {
 			return
 		}

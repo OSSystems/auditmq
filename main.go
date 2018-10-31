@@ -4,20 +4,21 @@ import (
 	"os"
 	"os/signal"
 
+	"github.com/NeowayLabs/wabbit"
 	"github.com/OSSystems/pkg/log"
+	"github.com/rodrigoapereira/auditmq/comparator"
 	"github.com/rodrigoapereira/auditmq/config"
-	"github.com/rodrigoapereira/auditmq/matcher"
-	"github.com/streadway/amqp"
+	"github.com/rodrigoapereira/auditmq/storage"
 )
 
 func main() {
 	cfg := config.LoadConfig()
-	matcher.InitializeWithData(cfg.Data)
+	storage.InitializeStorage(cfg.Data)
 
 	conn := cfg.GetAMQP()
 
 	go func() {
-		panic(<-conn.NotifyClose(make(chan *amqp.Error)))
+		panic(<-conn.NotifyClose(make(chan wabbit.Error)))
 	}()
 
 	consumer, err := NewConsumer()
@@ -29,7 +30,10 @@ func main() {
 	consumer.Start()
 
 	log.Info("Initializing comparator")
-	comp := matcher.NewComparator()
+	comp, err := comparator.New()
+	if err != nil {
+		panic(err)
+	}
 	comp.Start()
 
 	signalCh := make(chan os.Signal)

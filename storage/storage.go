@@ -1,35 +1,55 @@
 package storage
 
-type StorageData map[string]*Buffer
+import (
+	"errors"
+)
 
-type Storage struct {
-	services map[string]StorageData
+type Services map[string]Service
+
+type Storage interface {
+	AddService(srv Service) Service
+	GetService(srv string) (Service, error)
+	Services() Services
 }
 
-var storage *Storage
-
-func init() {
-	new()
+type storage struct {
+	services Services
 }
 
-func new() {
-	storage = &Storage{
-		services: map[string]StorageData{},
-	}
-}
+var storageInstance Storage
 
-func GetStorageData(service string) StorageData {
-	if _, ok := storage.services[service]; !ok {
-		storage.services[service] = make(StorageData)
-	}
-
-	return storage.services[service]
-}
-
-func (s StorageData) GetBuffer(field string) *Buffer {
-	if _, ok := s[field]; !ok {
-		s[field] = NewBuffer()
+func GetStorage() (Storage, error) {
+	if storageInstance == nil {
+		return nil, errors.New("Storage not initialized")
 	}
 
-	return s[field]
+	return storageInstance, nil
+}
+
+func (s *storage) AddService(srv Service) Service {
+	if val, ok := s.services[srv.Name()]; ok {
+		return val
+	}
+
+	s.services[srv.Name()] = srv
+	return srv
+}
+
+func (s *storage) GetService(name string) (Service, error) {
+	val, ok := s.services[name]
+	if !ok {
+		return nil, errors.New("Service not found")
+	}
+
+	return val, nil
+}
+
+func (s *storage) Services() Services {
+	return s.services
+}
+
+func newStorage() Storage {
+	return &storage{
+		services: make(Services),
+	}
 }

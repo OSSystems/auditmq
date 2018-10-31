@@ -1,23 +1,23 @@
 package main
 
 import (
+	"github.com/NeowayLabs/wabbit"
 	"github.com/OSSystems/pkg/log"
 	"github.com/rodrigoapereira/auditmq/config"
-	"github.com/streadway/amqp"
 )
 
 type ConsumerHandler interface {
-	Handle(amqp.Delivery)
+	Handle(wabbit.Delivery)
 }
 
 type Consumer struct {
 	Handler ConsumerHandler
 	cfg     *config.Config
-	ch      *amqp.Channel
+	ch      wabbit.Channel
 	done    chan error
 }
 
-func (c *Consumer) handle(deliveries <-chan amqp.Delivery) {
+func (c *Consumer) handle(deliveries <-chan wabbit.Delivery) {
 	for message := range deliveries {
 		c.Handler.Handle(message)
 	}
@@ -28,15 +28,7 @@ func (c *Consumer) handle(deliveries <-chan amqp.Delivery) {
 
 func (c *Consumer) Start() error {
 	c.done = make(chan error)
-	deliveryChan, err := c.ch.Consume(
-		c.cfg.ConsumerQueue,
-		c.cfg.ConsumerName,
-		false,
-		false,
-		false,
-		false,
-		nil,
-	)
+	deliveryChan, err := c.ch.Consume(c.cfg.ConsumerQueue, c.cfg.ConsumerName, nil)
 	if err != nil {
 		return err
 	}
@@ -72,7 +64,10 @@ func NewConsumer() (*Consumer, error) {
 		return nil, err
 	}
 
-	handler := NewHandler()
+	handler, err := NewHandler()
+	if err != nil {
+		return nil, err
+	}
 
 	return &Consumer{
 		Handler: handler,
