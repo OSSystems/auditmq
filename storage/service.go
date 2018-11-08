@@ -11,9 +11,9 @@ import (
 type ServiceStatus int
 
 const (
-	Unknown ServiceStatus = iota + 1
-	Sync
-	NotSync
+	Unknown ServiceStatus = -1
+	NotSync ServiceStatus = 0
+	Sync    ServiceStatus = 2
 )
 
 type Service interface {
