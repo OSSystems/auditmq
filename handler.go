@@ -51,8 +51,11 @@ func (h *Handler) Handle(message wabbit.Delivery) {
 	for field, data := range servicePayload.Data {
 		service.Push(field, data)
 
-		again, _ := h.storage.GetService(servicePayload.Service)
-		log.Debugf("Service %s - data %v \n", service.Name(), again.Fields()[field].Buffer.ToSlice())
+		again, err := service.GetField(field)
+		if err == nil {
+			log.Debugf("Service %s.%s - data %v", service.Name(), again.Name, again.ToSlice())
+		}
+
 		h.fillAnotherServices(servicePayload.Service, field)
 	}
 

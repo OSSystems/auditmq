@@ -8,18 +8,29 @@ import (
 	"github.com/spf13/cast"
 )
 
-type ServiceStatus int
+type Status int
 
 const (
-	Unknown ServiceStatus = -1
-	NotSync ServiceStatus = 0
-	Sync    ServiceStatus = 2
+	Unknown Status = -1
+	NotSync Status = 0
+	Sync    Status = 2
 )
+
+func (s Status) String() string {
+	switch s {
+	case NotSync:
+		return "Not synchronized"
+	case Sync:
+		return "Synchronized"
+	default:
+		return "Unknown"
+	}
+}
 
 type Service interface {
 	Name() string
-	Status() ServiceStatus
-	SetStatus(status ServiceStatus)
+	Status() Status
+	SetStatus(status Status)
 	HasField(fieldName string) bool
 	GetField(fieldName string) (Field, error)
 	AddField(fieldName string, opts config.ServiceData, owner Service) error
@@ -33,13 +44,14 @@ type Service interface {
 type service struct {
 	name   string
 	fields Fields
-	status ServiceStatus
+	status Status
 }
 
 type Fields map[string]Field
 
 type Field struct {
 	Name        string
+	Status      Status
 	Type        string
 	Buffer      *Buffer
 	DataOptions config.DataOptions
@@ -126,11 +138,11 @@ func (s *service) Name() string {
 	return s.name
 }
 
-func (s *service) Status() ServiceStatus {
+func (s *service) Status() Status {
 	return s.status
 }
 
-func (s *service) SetStatus(status ServiceStatus) {
+func (s *service) SetStatus(status Status) {
 	s.status = status
 }
 

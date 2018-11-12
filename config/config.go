@@ -24,12 +24,13 @@ type ServiceData struct {
 type DataFields map[string]ServiceData
 
 type Config struct {
-	DSN           string     `mapstructure:"dsn"`
-	Data          DataFields `mapstructure:"data"`
-	Exchange      string     `mapstructure:"exchange"`
-	RoutingKey    string
-	ConsumerQueue string `mapstructure:"ConsumerQueue"`
-	ConsumerName  string
+	DSN                string     `mapstructure:"dsn"`
+	Data               DataFields `mapstructure:"data"`
+	Exchange           string     `mapstructure:"exchange"`
+	ConsumerRoutingKey string
+	ReportRoutingKey   string
+	ConsumerQueue      string `mapstructure:"consumer_queue"`
+	ConsumerName       string
 
 	amqp *amqp.Conn
 }
@@ -62,10 +63,11 @@ func LoadConfig() *Config {
 	panicIfErr(err)
 
 	config = &Config{
-		Exchange:      "auditmq_exchange",
-		RoutingKey:    "auditmq",
-		ConsumerQueue: "audit_in",
-		ConsumerName:  "auditmq_worker",
+		Exchange:           "auditmq_exchange",
+		ConsumerRoutingKey: "auditmq",
+		ConsumerQueue:      "audit_in",
+		ConsumerName:       "auditmq_worker",
+		ReportRoutingKey:   "auditmq_reports",
 	}
 
 	err = viper.Unmarshal(config)
@@ -93,7 +95,7 @@ func (c *Config) GetAMQP() *amqp.Conn {
 	})
 	panicIfErr(err)
 
-	panicIfErr(ch.QueueBind(c.ConsumerQueue, c.RoutingKey, c.Exchange, nil))
+	panicIfErr(ch.QueueBind(c.ConsumerQueue, c.ConsumerRoutingKey, c.Exchange, nil))
 
 	panicIfErr(ch.Close())
 

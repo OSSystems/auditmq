@@ -1,6 +1,6 @@
 dsn: "amqp://guest:guest@localhost:5672/"
-exchange: uh.audit.tasks
-consumer_queue: uh.audit.events
+exchange: uh.auditmq
+consumer_queue: uh.audit.tasks
 data:
   device_count:
     type: int

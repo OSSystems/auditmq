@@ -47,9 +47,9 @@ func (mr *MockServiceMockRecorder) Name() *gomock.Call {
 }
 
 // Status mocks base method
-func (m *MockService) Status() storage.ServiceStatus {
+func (m *MockService) Status() storage.Status {
 	ret := m.ctrl.Call(m, "Status")
-	ret0, _ := ret[0].(storage.ServiceStatus)
+	ret0, _ := ret[0].(storage.Status)
 	return ret0
 }
 
@@ -59,7 +59,7 @@ func (mr *MockServiceMockRecorder) Status() *gomock.Call {
 }
 
 // SetStatus mocks base method
-func (m *MockService) SetStatus(status storage.ServiceStatus) {
+func (m *MockService) SetStatus(status storage.Status) {
 	m.ctrl.Call(m, "SetStatus", status)
 }
 

@@ -4,10 +4,12 @@ import (
 	"time"
 
 	"github.com/OSSystems/pkg/log"
+	"github.com/rodrigoapereira/auditmq/publisher"
 	"github.com/rodrigoapereira/auditmq/storage"
 )
 
 type comparator struct {
+	pub     publisher.Publisher
 	storage storage.Storage
 	ticker  *time.Ticker
 	stop    chan bool
@@ -20,39 +22,96 @@ func New() (*comparator, error) {
 		return nil, err
 	}
 
+	pub, err := publisher.New()
+	if err != nil {
+		return nil, err
+	}
+
 	return &comparator{
+		pub:     pub,
 		storage: storage,
 		stop:    make(chan bool),
 		done:    make(chan error),
 	}, nil
 }
 
-func (c *comparator) compare() {
+func (c *comparator) logExpectatives(service storage.Service) {
+	serviceName := service.Name()
+	for fieldName, field := range service.FieldsToMatch() {
+		ownerService := field.OwnedBy
+		ownerField, err := ownerService.GetField(fieldName)
+		if err != nil {
+			log.Errorf("Error when logging expectatives for %s", serviceName)
+			continue
+		}
+
+		ownerFieldSlice := ownerField.ToSlice()
+		log.Infof("%s.%s - expected: %v ; actual: %v", serviceName, fieldName, ownerFieldSlice, field.ToSlice())
+	}
+}
+
+func (c *comparator) buildFieldStatusList(service storage.Service) []storage.Status {
+	statusList := []storage.Status{}
+
+	for fieldName, field := range service.FieldsToMatch() {
+		ownerService := field.OwnedBy
+		ownerField, err := ownerService.GetField(fieldName)
+		if err != nil {
+			log.Error(err)
+			continue
+		}
+
+		ownerFieldSlice := ownerField.ToSlice()
+		serviceFieldSlice := field.ToSlice()
+
+		log.Debugf("%s.%s - expected: %v ; actual: %v", service.Name(), fieldName, ownerFieldSlice, serviceFieldSlice)
+		result, err := ownerField.Equals(field)
+		if err != nil {
+			log.Debugf("Comparator raises: %v", err)
+			continue
+		}
+
+		var newStatus storage.Status
+		if result {
+			newStatus = storage.Sync
+		} else {
+			newStatus = storage.NotSync
+		}
+
+		statusList = append(statusList, newStatus)
+	}
+
+	return statusList
+}
+
+func (c *comparator) compare() error {
 	for _, service := range c.storage.Services() {
-		for fieldName, field := range service.FieldsToMatch() {
-			ownerService := field.OwnedBy
-			ownerField, err := ownerService.GetField(fieldName)
-			if err != nil {
-				log.Error(err)
-				continue
-			}
+		serviceName := service.Name()
+		oldStatus := service.Status()
 
-			log.Debugf("%s - expected: %v ; actual: %v", service.Name(), ownerField.ToSlice(), field.ToSlice())
-			result, err := ownerField.Equals(field)
-			if err != nil {
-				log.Error(err)
-				continue
-			}
+		statusList := c.buildFieldStatusList(service)
+		newStatus := storage.DetermineMinStatus(statusList)
+		if oldStatus == newStatus {
+			log.Debugf("%s service keep the same status (%s)", serviceName, newStatus.String())
+			continue
+		}
 
-			if result {
-				log.Infof("%s service stable", service.Name())
-				service.SetStatus(storage.Sync)
-			} else {
-				log.Errorf("%s service unstable - %s is not equal to the owner", service.Name(), field.Name)
-				service.SetStatus(storage.NotSync)
-			}
+		log.Infof("%s service status: (%s)", serviceName, newStatus.String())
+		service.SetStatus(newStatus)
+		c.logExpectatives(service)
+
+		err := c.pub.PublishServiceStatus(service)
+		if err != nil {
+			return err
+		}
+
+		err = c.pub.PublishGlobalStat()
+		if err != nil {
+			return err
 		}
 	}
+
+	return nil
 }
 
 func (c *comparator) run() {
@@ -65,7 +124,12 @@ func (c *comparator) run() {
 			break
 		case <-c.ticker.C:
 			log.Debug("Running comparison")
-			c.compare()
+
+			lastErr = c.compare()
+			if lastErr != nil {
+				log.Errorf("Comparator raises an error %v", lastErr)
+			}
+
 			log.Debug("Finished comparison")
 		}
 	}
