@@ -6,8 +6,8 @@ import (
 
 	"github.com/NeowayLabs/wabbit"
 	"github.com/OSSystems/pkg/log"
-	"github.com/rodrigoapereira/auditmq/pkg"
-	storagePkg "github.com/rodrigoapereira/auditmq/storage"
+	"github.com/OSSystems/auditmq/pkg"
+	storagePkg "github.com/OSSystems/auditmq/storage"
 )
 
 var nackRetryTime = 5

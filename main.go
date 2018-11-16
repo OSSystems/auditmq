@@ -6,9 +6,9 @@ import (
 
 	"github.com/NeowayLabs/wabbit"
 	"github.com/OSSystems/pkg/log"
-	"github.com/rodrigoapereira/auditmq/comparator"
-	"github.com/rodrigoapereira/auditmq/config"
-	"github.com/rodrigoapereira/auditmq/storage"
+	"github.com/OSSystems/auditmq/comparator"
+	"github.com/OSSystems/auditmq/config"
+	"github.com/OSSystems/auditmq/storage"
 )
 
 func main() {

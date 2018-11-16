@@ -5,8 +5,8 @@
 package mocks
 
 import (
+	storage "github.com/OSSystems/auditmq/storage"
 	gomock "github.com/golang/mock/gomock"
-	storage "github.com/rodrigoapereira/auditmq/storage"
 	reflect "reflect"
 )
 

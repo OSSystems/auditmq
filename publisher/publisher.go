@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 
 	"github.com/NeowayLabs/wabbit"
+	"github.com/OSSystems/auditmq/config"
+	"github.com/OSSystems/auditmq/pkg"
+	"github.com/OSSystems/auditmq/storage"
 	"github.com/OSSystems/pkg/log"
-	"github.com/rodrigoapereira/auditmq/config"
-	"github.com/rodrigoapereira/auditmq/pkg"
-	"github.com/rodrigoapereira/auditmq/storage"
 )
 
 type Publisher interface {

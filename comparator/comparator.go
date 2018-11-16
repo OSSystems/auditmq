@@ -3,9 +3,9 @@ package comparator
 import (
 	"time"
 
+	"github.com/OSSystems/auditmq/publisher"
+	"github.com/OSSystems/auditmq/storage"
 	"github.com/OSSystems/pkg/log"
-	"github.com/rodrigoapereira/auditmq/publisher"
-	"github.com/rodrigoapereira/auditmq/storage"
 )
 
 type comparator struct {

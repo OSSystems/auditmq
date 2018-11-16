@@ -3,8 +3,8 @@ package storage
 import (
 	"errors"
 
+	"github.com/OSSystems/auditmq/config"
 	"github.com/gonum/stat"
-	"github.com/rodrigoapereira/auditmq/config"
 	"github.com/spf13/cast"
 )
 

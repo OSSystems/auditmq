@@ -8,10 +8,10 @@ import (
 	"github.com/NeowayLabs/wabbit"
 	"github.com/NeowayLabs/wabbit/amqptest"
 	"github.com/NeowayLabs/wabbit/amqptest/server"
+	"github.com/OSSystems/auditmq/mocks"
+	"github.com/OSSystems/auditmq/pkg"
+	"github.com/OSSystems/auditmq/storage"
 	"github.com/golang/mock/gomock"
-	"github.com/rodrigoapereira/auditmq/mocks"
-	"github.com/rodrigoapereira/auditmq/pkg"
-	"github.com/rodrigoapereira/auditmq/storage"
 	"github.com/stretchr/testify/suite"
 )
 

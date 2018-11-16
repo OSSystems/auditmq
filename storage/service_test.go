@@ -3,7 +3,7 @@ package storage
 import (
 	"testing"
 
-	"github.com/rodrigoapereira/auditmq/config"
+	"github.com/OSSystems/auditmq/config"
 	"github.com/stretchr/testify/suite"
 )
 

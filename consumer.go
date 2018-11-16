@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/NeowayLabs/wabbit"
 	"github.com/OSSystems/pkg/log"
-	"github.com/rodrigoapereira/auditmq/config"
+	"github.com/OSSystems/auditmq/config"
 )
 
 type ConsumerHandler interface {

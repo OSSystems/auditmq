@@ -1,7 +1,7 @@
 package storage
 
 import (
-	"github.com/rodrigoapereira/auditmq/config"
+	"github.com/OSSystems/auditmq/config"
 )
 
 type StorageBuilder struct {
