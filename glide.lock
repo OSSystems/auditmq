@@ -1,5 +1,5 @@
 hash: 6a55142dfac2c6f6b01042027a54c9b6522ed6de086f986f0c13792a00ea0699
-updated: 2018-11-16T16:24:13.535921401-02:00
+updated: 2018-11-16T17:26:51.377837149-02:00
 imports:
 - name: github.com/fsnotify/fsnotify
   version: c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9
@@ -59,10 +59,11 @@ imports:
   - amqptest/server
   - utils
 - name: github.com/OSSystems/auditmq
-  version: 520351244c2e85594ffd4d6fc41ca9acb3db74dc
+  version: e21487912af588d5f465781fa3a8d5d648904846
   subpackages:
   - comparator
   - config
+  - mocks
   - pkg
   - publisher
   - storage
