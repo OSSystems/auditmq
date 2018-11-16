@@ -1,0 +1,129 @@
+hash: 6a55142dfac2c6f6b01042027a54c9b6522ed6de086f986f0c13792a00ea0699
+updated: 2018-11-16T16:24:13.535921401-02:00
+imports:
+- name: github.com/fsnotify/fsnotify
+  version: c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9
+- name: github.com/golang/mock
+  version: c34cdb4725f4c3844d095133c6e40e448b86589b
+  subpackages:
+  - gomock
+- name: github.com/gonum/blas
+  version: e7c5890b24cf6f3bb173f76e1bd71e80e887e3f9
+  subpackages:
+  - blas64
+  - native
+  - native/internal/math32
+- name: github.com/gonum/floats
+  version: 7de1f4ea7ab57890bfd427af68c7994cd67975d4
+- name: github.com/gonum/internal
+  version: fda53f8d25717c07e2dac25758075a182bd74235
+  subpackages:
+  - asm/f32
+  - asm/f64
+- name: github.com/gonum/lapack
+  version: f0b8b25edeceafb3a2752941c7bf0cda962df112
+  subpackages:
+  - lapack64
+  - native
+- name: github.com/gonum/matrix
+  version: a41cc49d4c29f7451775f4379a5cc6ec6239dfab
+  subpackages:
+  - mat64
+- name: github.com/gonum/stat
+  version: ec9c8a1062f4be6c6ad671f0f5dba12d4a76826d
+- name: github.com/google/uuid
+  version: 9b3b1e0f5f99ae461456d768e7d301a7acdaa2d8
+- name: github.com/hashicorp/hcl
+  version: 65a6292f0157eff210d03ed1bf6c59b190b8b906
+  subpackages:
+  - hcl/ast
+  - hcl/parser
+  - hcl/printer
+  - hcl/scanner
+  - hcl/strconv
+  - hcl/token
+  - json/parser
+  - json/scanner
+  - json/token
+- name: github.com/konsorten/go-windows-terminal-sequences
+  version: 5c8c8bd35d3832f5d134ae1e1e375b69a4d25242
+- name: github.com/magiconair/properties
+  version: c2353362d570a7bfa228149c62842019201cfb71
+- name: github.com/mitchellh/mapstructure
+  version: 3536a929edddb9a5b34bd6861dc4a9647cb459fe
+- name: github.com/NeowayLabs/wabbit
+  version: d0899455c2e49cafb69669fecee69bb0db9e574e
+  subpackages:
+  - amqp
+  - amqptest
+  - amqptest/server
+  - utils
+- name: github.com/OSSystems/auditmq
+  version: 520351244c2e85594ffd4d6fc41ca9acb3db74dc
+  subpackages:
+  - comparator
+  - config
+  - pkg
+  - publisher
+  - storage
+- name: github.com/OSSystems/pkg
+  version: 0c38fb3a1f0ffbf57cdcd47857ee8d2dc84af1ef
+  subpackages:
+  - log
+- name: github.com/pborman/uuid
+  version: 8b1b92947f46224e3b97bb1a3a5b0382be00d31e
+- name: github.com/pelletier/go-toml
+  version: aa79e12a973495d00b01f2353330e5275d084731
+- name: github.com/sirupsen/logrus
+  version: bcd833dfe83d3cebad139e4a29ed79cb2318bf95
+  subpackages:
+  - hooks/test
+- name: github.com/spf13/afero
+  version: 787d034dfe70e44075ccc060d346146ef53270ad
+  subpackages:
+  - mem
+- name: github.com/spf13/cast
+  version: 8c9545af88b134710ab1cd196795e7f2388358d7
+- name: github.com/spf13/jwalterweatherman
+  version: 94f6ae3ed3bceceafa716478c5fbf8d29ca601a1
+- name: github.com/spf13/pflag
+  version: 3ebe029320b2676d667ae88da602a5f854788a8a
+- name: github.com/spf13/viper
+  version: 2c12c60302a5a0e62ee102ca9bc996277c2f64f5
+- name: github.com/streadway/amqp
+  version: 27835f1a64e97101d95306211f03c0620ffa295d
+- name: golang.org/x/crypto
+  version: 7f39a6fea4fe9364fb61e1def6a268a51b4f3a06
+  subpackages:
+  - ssh/terminal
+- name: golang.org/x/net
+  version: db08ff08e8622530d9ed3a0e8ac279f6d4c02196
+  subpackages:
+  - context
+- name: golang.org/x/sys
+  version: ad87a3a340fa7f3bed189293fbfa7a9b7e021ae1
+  subpackages:
+  - unix
+  - windows
+- name: golang.org/x/text
+  version: 5cec4b58c438bd98288aeb248bab2c1840713d21
+  subpackages:
+  - transform
+  - unicode/norm
+- name: gopkg.in/yaml.v2
+  version: 5420a8b6744d3b0345ab293f6fcba19c978f1183
+testImports:
+- name: github.com/davecgh/go-spew
+  version: 8991bc29aa16c548c550c7ff78260e27b9ab7c73
+  subpackages:
+  - spew
+- name: github.com/pmezard/go-difflib
+  version: 792786c7400a136282c1664665ae0a8db921c6c2
+  subpackages:
+  - difflib
+- name: github.com/stretchr/testify
+  version: f35b8ab0b5a2cef36673838d662e249dd9c94686
+  subpackages:
+  - assert
+  - require
+  - suite

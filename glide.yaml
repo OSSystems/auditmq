@@ -1,0 +1,31 @@
+package: .
+import:
+- package: github.com/NeowayLabs/wabbit
+  subpackages:
+  - amqp
+- package: github.com/OSSystems/auditmq
+  subpackages:
+  - comparator
+  - config
+  - pkg
+  - publisher
+  - storage
+- package: github.com/OSSystems/pkg
+  subpackages:
+  - log
+- package: github.com/golang/mock
+  version: ~1.1.1
+  subpackages:
+  - gomock
+- package: github.com/gonum/stat
+- package: github.com/sirupsen/logrus
+  version: ~1.2.0
+- package: github.com/spf13/cast
+  version: ~1.3.0
+- package: github.com/spf13/viper
+  version: ~1.2.1
+testImport:
+- package: github.com/stretchr/testify
+  version: ~1.2.2
+  subpackages:
+  - suite
