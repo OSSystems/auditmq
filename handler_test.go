@@ -5,11 +5,11 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/golang/mock/gomock"
 	"github.com/OSSystems/auditmq/config"
 	"github.com/OSSystems/auditmq/mocks"
 	"github.com/OSSystems/auditmq/pkg"
 	"github.com/OSSystems/auditmq/storage"
+	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -85,7 +85,7 @@ func (s *HandlerTestSuite) TestHandlerWithServices() {
 	}, validService)
 	validReplica.Push("value1", 10)
 
-	s.storageMock.EXPECT().GetService("api-server").Return(validService, nil).Times(2)
+	s.storageMock.EXPECT().GetService("api-server").Return(validService, nil)
 	s.storageMock.EXPECT().Services().Return(storage.Services{
 		"api-server":    validService,
 		"old-server":    invalidReplica,
