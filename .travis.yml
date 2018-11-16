@@ -1,0 +1,31 @@
+language: go
+
+go:
+  - "1.9"
+  - "1.10"
+  - "1.11"
+  - "master"
+
+go_import_path: github.com/OSSystems/auditmq
+
+matrix:
+  allow_failures:
+    - go: master
+
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:masterminds/glide'
+    packages:
+      - glide
+
+before_install:
+  - glide install
+  - make
+
+install: true
+
+script:
+  - go get github.com/golang/mock/mockgen
+  - make mockgen
+  - go test ./...

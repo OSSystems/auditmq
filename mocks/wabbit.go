@@ -225,6 +225,18 @@ func (mr *MockChannelMockRecorder) ExchangeDeclare(arg0, arg1, arg2 interface{})
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExchangeDeclare", reflect.TypeOf((*MockChannel)(nil).ExchangeDeclare), arg0, arg1, arg2)
 }
 
+// ExchangeDeclarePassive mocks base method
+func (m *MockChannel) ExchangeDeclarePassive(arg0, arg1 string, arg2 wabbit.Option) error {
+	ret := m.ctrl.Call(m, "ExchangeDeclarePassive", arg0, arg1, arg2)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ExchangeDeclarePassive indicates an expected call of ExchangeDeclarePassive
+func (mr *MockChannelMockRecorder) ExchangeDeclarePassive(arg0, arg1, arg2 interface{}) *gomock.Call {
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExchangeDeclarePassive", reflect.TypeOf((*MockChannel)(nil).ExchangeDeclarePassive), arg0, arg1, arg2)
+}
+
 // Nack mocks base method
 func (m *MockChannel) Nack(arg0 uint64, arg1, arg2 bool) error {
 	ret := m.ctrl.Call(m, "Nack", arg0, arg1, arg2)
@@ -235,6 +247,18 @@ func (m *MockChannel) Nack(arg0 uint64, arg1, arg2 bool) error {
 // Nack indicates an expected call of Nack
 func (mr *MockChannelMockRecorder) Nack(arg0, arg1, arg2 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Nack", reflect.TypeOf((*MockChannel)(nil).Nack), arg0, arg1, arg2)
+}
+
+// NotifyClose mocks base method
+func (m *MockChannel) NotifyClose(arg0 chan wabbit.Error) chan wabbit.Error {
+	ret := m.ctrl.Call(m, "NotifyClose", arg0)
+	ret0, _ := ret[0].(chan wabbit.Error)
+	return ret0
+}
+
+// NotifyClose indicates an expected call of NotifyClose
+func (mr *MockChannelMockRecorder) NotifyClose(arg0 interface{}) *gomock.Call {
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NotifyClose", reflect.TypeOf((*MockChannel)(nil).NotifyClose), arg0)
 }
 
 // NotifyPublish mocks base method
@@ -296,6 +320,19 @@ func (m *MockChannel) QueueDeclare(arg0 string, arg1 wabbit.Option) (wabbit.Queu
 // QueueDeclare indicates an expected call of QueueDeclare
 func (mr *MockChannelMockRecorder) QueueDeclare(arg0, arg1 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueueDeclare", reflect.TypeOf((*MockChannel)(nil).QueueDeclare), arg0, arg1)
+}
+
+// QueueDeclarePassive mocks base method
+func (m *MockChannel) QueueDeclarePassive(arg0 string, arg1 wabbit.Option) (wabbit.Queue, error) {
+	ret := m.ctrl.Call(m, "QueueDeclarePassive", arg0, arg1)
+	ret0, _ := ret[0].(wabbit.Queue)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// QueueDeclarePassive indicates an expected call of QueueDeclarePassive
+func (mr *MockChannelMockRecorder) QueueDeclarePassive(arg0, arg1 interface{}) *gomock.Call {
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueueDeclarePassive", reflect.TypeOf((*MockChannel)(nil).QueueDeclarePassive), arg0, arg1)
 }
 
 // QueueDelete mocks base method
