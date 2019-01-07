@@ -1,5 +1,6 @@
 language: go
 
+# https://github.com/travis-ci/travis-ci/issues/9247
 go:
   - "1.9"
   - "1.10"
@@ -20,12 +21,9 @@ addons:
       - glide
 
 before_install:
-  - glide install
-  - make
+  - make vendor
 
 install: true
 
 script:
-  - go get github.com/golang/mock/mockgen
-  - make mockgen
-  - go test ./...
+  - make test
