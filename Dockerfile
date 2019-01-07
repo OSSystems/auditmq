@@ -1,4 +1,4 @@
-FROM golang:1.10.0-alpine3.7 as builder
+FROM golang:1.11-alpine3.8 as builder
 
 RUN apk --update --no-cache add git openssh make
 RUN go get -u github.com/Masterminds/glide
