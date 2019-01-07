@@ -1,2 +1,4 @@
 auditmq
 config.yml
+.GOPATH
+/vendor
