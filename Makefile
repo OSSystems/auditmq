@@ -26,7 +26,7 @@ build: .GOPATH/.ok auditmq
 .PHONY: updatehub
 auditmq: .GOPATH/.ok vendor
 	@echo -n "building auditmq… "
-	$Q $(CROSS_COMPILE)go install $(if $V,-v -x) $(VERSION_FLAGS) $(IMPORT_PATH)/
+	$Q $(CROSS_COMPILE)go install $(if $V,-v -x) $(IMPORT_PATH)/
 	@echo "done"
 
 ##### =====> Utility targets <===== #####
@@ -81,9 +81,6 @@ format: .GOPATH/.ok bin/goimports
 	    -e "^$$" $(addprefix -e ,$(IGNORED_PACKAGES)) | xargs ./bin/goimports -w
 
 ##### =====> Internals <===== #####
-
-VERSION          := $(shell git describe --tags --always --dirty="-dirty")
-VERSION_FLAGS    := -ldflags='-X "main.gitversion=$(VERSION)"'
 
 # cd into the GOPATH to workaround ./... not following symlinks
 _allpackages = $(shell ( cd $(CURDIR)/.GOPATH/src/$(IMPORT_PATH) && \
