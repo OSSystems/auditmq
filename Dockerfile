@@ -12,6 +12,6 @@ RUN make
 FROM alpine:3.7
 
 COPY --from=builder /go/src/github.com/OSSystems/auditmq/entrypoint.sh /usr/local/bin/
-COPY --from=builder /go/src/github.com/OSSystems/auditmq/auditmq /usr/local/bin/
+COPY --from=builder /go/src/github.com/OSSystems/auditmq/bin/auditmq /usr/local/bin/
 
 CMD ["/usr/local/bin/entrypoint.sh"]
